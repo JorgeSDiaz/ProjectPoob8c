@@ -61,7 +61,9 @@ public class Triangle{
             }
         }
         isRotate = true;
-        draw();
+        if (isVisible){
+            draw();
+        }
         isRotate = false;
     }
     
@@ -86,7 +88,9 @@ public class Triangle{
     public void setYposition(int newYposition){
         erase();
         yPosition = newYposition;
-        draw();
+        if (isVisible){
+            draw();
+        }
     }
     
     public int getYposition(){
@@ -212,7 +216,9 @@ public class Triangle{
         erase();
         height = newHeight;
         width = newWidth;
-        draw();
+        if (isVisible){
+            draw();
+        }
     }
     
     /**
@@ -222,7 +228,9 @@ public class Triangle{
      */
     public void changeColor(String newColor){
         color = newColor;
-        draw();
+        if (isVisible){
+            draw();
+        }
     }
 
     /*

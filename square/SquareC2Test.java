@@ -21,7 +21,7 @@ public class SquareC2Test
     public SquareC2Test()
     {
         zoneA = new Square(1000, 1000, 5);
-        int[] dimensions = {200, 200, 3};
+        int[] dimensions = {300, 230, 3};
         int[][] dome = {{100, 120}, {70, 90}, {150, 10}};
         int[] desiredView = {3, 1, 2};
         zoneB = new Square(dimensions, dome, desiredView);
@@ -127,17 +127,31 @@ public class SquareC2Test
         zoneA.touristArrive("pink", 100, 100);
         zoneA.touristArrive("white", 200, 200);
         zoneA.touristMove("pink", 50, 50, 270);
-        zoneA.touristMove("white", 20, 10, 45);
+        zoneA.touristMove("white", 20, 10, 90);
         zoneA.addDome("pink", 50, 50);
         zoneA.addDome("blue", 110, 25);
         zoneA.addDome("green", 10, 90);
         zoneA.addDome("light blue", 200, 200);
         zoneA.addDome("orange", 150, 200);
-        String[] pinkView = {"orange", "blue", "green"};
-        String[] whiteView = {"light blue", "orange"};
-        zoneA.makeVisible();
+        String[] pinkView = {"orange", "blue", "light blue"};
+        String[] whiteView = {"green"};
         assertArrayEquals(pinkView, zoneA.touristTakePhoto("pink"));
         assertArrayEquals(whiteView, zoneA.touristTakePhoto("white"));
+    }
+    
+    @Test
+    /**
+     * 
+     */
+    public void shouldWhoRequestedPhoto(){
+        int[] dimensions = {300, 250, 3};
+        int[][] dome = {{150, 200}, {110, 25}, {200, 200}};
+        int[] desiredView = {2, 1, 3};
+        Square zoneC = new Square(dimensions, dome, desiredView);
+        zoneC.touristArrive("pink", 100, 100);
+        zoneC.touristMove("pink", 50, 50, 270);
+        String[] res = {"pink"};
+        assertArrayEquals(res, zoneC.whoRequestedPhoto());
     }
 
     /**

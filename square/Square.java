@@ -10,7 +10,7 @@ import java.util.Random;
  * We create a space with domes to admire and the tourists who come to observe.
  * 
  * @author Luisa de la Hoz y Jorge Saenz.
- * @version 22/02/22(3.0).
+ * @version (3.5).
  */
 public class Square
 {
@@ -26,6 +26,9 @@ public class Square
 
     /**
      * Constructor for objects of class Square
+     * @Param xDim x-dimension of the area
+     * @Param yDim y-dimension of the area
+     * @Param safeDis the minimum distance that should be between tourist and tourist
      */
     public Square(int xDim, int yDim, int safeDis)
     {
@@ -40,9 +43,12 @@ public class Square
         requestedView = new ArrayList();
     }
     
-    // dimensions = [xDim, yDim, cantDomes]
-    // domes = [a, b, c] = [[x0, y0], [x1, y1], [x2, y2]] domes[a] = [x0, y0], domes[a][1] = y
-    // desiredView = [2, 0, 1]
+    /**
+     * constructor overload
+     * @Param dimensions list of integers with the dimensions in x and y of the zone and the number of domes to add
+     * @Param domes two-dimensional list that contains the pair of coordinates of each dome
+     * @Param desiredView 
+     */
     public Square(int[] dimensions, int[][] domes, int[] desiredView){
         ok = true;
         dimensionX = dimensions[0];
@@ -56,6 +62,10 @@ public class Square
     }
     
     // dome = ["violet", "blue", "red"]
+    /**
+     * allows the user to define the order in which the domes want to appear in the simulator, listing from first to last, using their color as a reference
+     * @Param dome List with the color from the first to the last of the domes in the order that they should appear
+     */
     public void defineRequestedPhoto(String[] dome){
         ArrayList<String> order = new ArrayList<String>(Arrays.asList(dome));
         requestedView = order;
@@ -262,7 +272,7 @@ public class Square
     }
     
     /**
-     * 
+     * Some tourist takes the requested photo
      */
     public void takeRequestedPhoto(){
         ArrayList<String> Possible = new ArrayList<String>(Arrays.asList(whoRequestedPhoto()));
@@ -324,12 +334,14 @@ public class Square
     }
     
     /**
-     * 
+     * Returns a list of tourists who can take the requested photo
      */
     public String[] whoRequestedPhoto(){
         ArrayList<String> allowed = new ArrayList();
-        for(String e: tourists()){
-            ArrayList<String> viewTouris = new ArrayList<String>(Arrays.asList(e));
+        String[] turiss = tourists();
+        for(String e: turiss){
+            String[] photo = touristTakePhoto(e);
+            ArrayList<String> viewTouris = new ArrayList<String>(Arrays.asList(photo));
             if (viewTouris.equals(requestedView)){
                 allowed.add(e);
             }
@@ -471,6 +483,9 @@ public class Square
         }
     }
     
+    /**
+     * Returns a list with the colors available to use in the domes
+     */
     private ArrayList<String> colorsNuse(){
         String[] tooColors = {"green", "red", "black", "yellow", "magenta", "white", "orange", "light blue", "violet", "pink", "aquamarine"};
         ArrayList<String> colors = new ArrayList();
@@ -483,6 +498,12 @@ public class Square
         return colors;
     }
     
+    /**
+     * It allows us to add several domes at the same time without repeating their reference color and organizing the view requested by the user
+     * @Param domes two-dimensional list that contains the pair of coordinates of each dome
+     * @Param cant number of domes
+     * @Param views list with the order of how the domes should appear
+     */
     private void addMultiDoms(int[][] domes, int cant, int[] views){
         // sobrecargar con el setforgroun
         String[] order = new String[cant]; // [null, null, null,...]

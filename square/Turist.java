@@ -27,7 +27,6 @@ public class Turist
      */
     public void setColor(String newColor){
         turis.changeColor(newColor);
-        makeVisible();
     }
     
     /**
@@ -61,7 +60,6 @@ public class Turist
     public void setCor(int newXcor, int newYcor){
         turis.setXposition(newXcor);
         turis.setYposition(newYcor);
-        makeVisible();
     }
     
     /**

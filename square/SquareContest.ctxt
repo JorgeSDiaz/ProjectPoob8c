@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=SquareContest
+comment0.text=\r\n\ solve\ the\ marathon\ problem\r\n\ \r\n\ @author\ Luisa\ de\ la\ Hoz\ y\ Jorge\ Saenz.\ \r\n\ @version\ (1.0)\r\n
+comment1.params=dimensions\ domes\ desiredView
+comment1.target=float\ solve(int[],\ int[][],\ int[])
+comment1.text=\r\n\ Returns\ the\ area\ of\ \u200B\u200Bthe\ desired\ photo\r\n\ \r\n
+comment2.params=dimensions\ domes\ desiredView
+comment2.target=void\ simulate(int[],\ int[][],\ int[])
+comment2.text=\r\n\ \r\n
+numComments=3
