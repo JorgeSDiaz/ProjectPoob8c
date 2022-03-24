@@ -13,10 +13,17 @@ public class Turist
     /**
      * Constructor for objects of class Turist
      */
-    public Turist()
+    public Turist(int height, int width)
     {
+        newSize(height, width);
         turis.changeColor("magenta");
         turis.varyAngle(-90);
+    }
+
+    private void newSize(int height, int width){
+        int newHeight = height / 1000;
+        int newWidth = width / 10;
+        turis.changeSize(newHeight, newWidth);
     }
     
     /**
@@ -38,6 +45,10 @@ public class Turist
     
     public int getHeight(){
         return turis.getHeight();
+    }
+
+    public int getWidth(){
+        return turis.getWidth();
     }
     
     /**
@@ -61,7 +72,15 @@ public class Turist
         turis.setXposition(newXcor);
         turis.setYposition(newYcor);
     }
-    
+
+    public void setXposition(int newXcor){
+        turis.setXposition(newXcor);
+    }
+
+    public void setYposition(int newYcor){
+        turis.setYposition(newYcor);
+    }
+
     /**
      * we get the coordinate x where the tourist is located.
      */

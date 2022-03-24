@@ -18,8 +18,7 @@ public class SquareC2Test
     /**
      * Default constructor for test class SquareC2Test
      */
-    public SquareC2Test()
-    {
+    public SquareC2Test() throws ExceptionSquare {
         zoneA = new Square(1000, 1000, 5);
         int[] dimensions = {300, 230, 3};
         int[][] dome = {{100, 120}, {70, 90}, {150, 10}};
@@ -42,8 +41,8 @@ public class SquareC2Test
      * 
      */
     public void shouldCreateZoneDimensionsSafeDis(){
-        Square zone = new Square(10, 10, 5);
-        int[] dimensions = {10, 10};
+        Square zone = new Square(100, 100, 5);
+        int[] dimensions = {100, 100};
         assertArrayEquals(dimensions, zone.getDimensions());
         assertEquals(5, zone.getSafetyDistance());
     }
@@ -52,7 +51,7 @@ public class SquareC2Test
     /**
      * 
      */
-    public void shouldCreateZoneMultiDoms(){
+    public void shouldCreateZoneMultiDoms() throws ExceptionSquare {
         int[] dimensions = {200, 200, 3};
         int[][] dome = {{100, 120}, {70, 90}, {150, 10}};
         int[] desiredView = {3, 1, 2};
@@ -76,9 +75,9 @@ public class SquareC2Test
     /**
      * 
      */
-    public void shouldAddDome(){
-        zoneA.addDome("pink", 50, 50);
-        String[] dome = {"pink"};
+    public void shouldAddDome() throws ExceptionSquare {
+        zoneA.addDome("red", 50, 50);
+        String[] dome = {"red"};
         assertArrayEquals(dome, zoneA.domes());
     }
     
@@ -86,7 +85,7 @@ public class SquareC2Test
     /**
      * 
      */
-    public void shouldDelDome(){
+    public void shouldDelDome() throws ExceptionSquare {
         zoneA.addDome("pink", 50, 50);
         zoneA.addDome("light blue", 25, 25);
         zoneA.delDome("pink");
@@ -97,10 +96,10 @@ public class SquareC2Test
     /**
      * 
      */
-    public void shouldTouristArrive(){
+    public void shouldTouristArrive() throws ExceptionSquare {
         zoneA.touristArrive("pink", 25, 50);
         zoneA.touristArrive("white", 30, 30);
-        zoneA.touristArrive("black", 10, 60);
+        zoneA.touristArrive("black", 50, 60);
         assertEquals(3, zoneA.tourists().length);
     }
     
@@ -108,7 +107,7 @@ public class SquareC2Test
     /**
      * 
      */
-    public void shoulTouristMove(){
+    public void shoulTouristMove() throws ExceptionSquare {
         zoneA.touristArrive("pink", 25, 50);
         zoneA.touristArrive("white", 30, 30);
         zoneA.touristMove("pink", 50, 50, 75);
@@ -123,18 +122,18 @@ public class SquareC2Test
     /**
      * 
      */
-    public void shouldTouristTakePhoto(){
+    public void shouldTouristTakePhoto() throws ExceptionSquare {
         zoneA.touristArrive("pink", 100, 100);
         zoneA.touristArrive("white", 200, 200);
         zoneA.touristMove("pink", 50, 50, 270);
         zoneA.touristMove("white", 20, 10, 90);
         zoneA.addDome("pink", 50, 50);
         zoneA.addDome("blue", 110, 25);
-        zoneA.addDome("green", 10, 90);
+        zoneA.addDome("violet", 10, 90);
         zoneA.addDome("light blue", 200, 200);
         zoneA.addDome("orange", 150, 200);
         String[] pinkView = {"orange", "blue", "light blue"};
-        String[] whiteView = {"green"};
+        String[] whiteView = {"violet"};
         assertArrayEquals(pinkView, zoneA.touristTakePhoto("pink"));
         assertArrayEquals(whiteView, zoneA.touristTakePhoto("white"));
     }
@@ -143,13 +142,13 @@ public class SquareC2Test
     /**
      * 
      */
-    public void shouldWhoRequestedPhoto(){
+    public void shouldWhoRequestedPhoto() throws ExceptionSquare {
         int[] dimensions = {300, 250, 3};
-        int[][] dome = {{150, 200}, {110, 25}, {200, 200}};
+        int[][] dome = {{150, 100}, {110, 25}, {200, 100}};
         int[] desiredView = {2, 1, 3};
         Square zoneC = new Square(dimensions, dome, desiredView);
-        zoneC.touristArrive("pink", 100, 100);
-        zoneC.touristMove("pink", 50, 50, 270);
+        zoneC.touristArrive("pink", 30, 30);
+        zoneC.touristMove("pink", 30, 30, 270);
         String[] res = {"pink"};
         assertArrayEquals(res, zoneC.whoRequestedPhoto());
     }

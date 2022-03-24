@@ -14,7 +14,7 @@ public class SquareContest
      * Returns the area of ​​the desired photo
      * 
      */
-    public float solve(int[] dimensions, int[][] domes, int[]desiredView){
+    public float solve(int[] dimensions, int[][] domes, int[]desiredView) throws ExceptionSquare {
         square = new Square(dimensions, domes, desiredView);
         square.takeRequestedPhoto();
         solve = 0;
@@ -24,7 +24,7 @@ public class SquareContest
     /**
      * 
      */
-    public void simulate(int[] dimensions, int[][] domes, int[]desiredView){
+    public void simulate(int[] dimensions, int[][] domes, int[]desiredView) throws ExceptionSquare {
         square = new Square(dimensions, domes, desiredView);
         square.makeVisible();
     }

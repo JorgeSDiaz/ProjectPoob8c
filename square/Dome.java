@@ -13,9 +13,10 @@ public class Dome
     /**
      * Constructor for objects of class Dome
      */
-    public Dome()
+    public Dome(int size)
     {
         dome.changeColor("light blue");
+        dome.changeSize(size  / 10);
         dome.setXposition(50);
         dome.setYposition(50);
         visible = false;

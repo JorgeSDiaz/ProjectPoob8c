@@ -1,10 +1,4 @@
-import java.util.List;
-import javax.swing.*;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 /**
  * We create a space with domes to admire and the tourists who come to observe.
@@ -14,15 +8,15 @@ import java.util.Random;
  */
 public class Square
 {
-    private int dimensionX;
-    private int dimensionY;
-    private int safetyDistance;
+    private final int dimensionX;
+    private final int dimensionY;
+    private final int safetyDistance;
     private boolean visible;
     private boolean ok;
     private ArrayList<String> requestedView;
-    private Rectangle zone = new Rectangle();
-    private HashMap<String, Dome> domes = new HashMap<String, Dome>();
-    private HashMap<String, Turist> turis = new HashMap<String, Turist>();
+    private final Rectangle zone = new Rectangle();
+    private final HashMap<String, Dome> domes = new HashMap<>();
+    private final HashMap<String, Turist> turis = new HashMap<>();
 
     /**
      * Constructor for objects of class Square
@@ -40,7 +34,7 @@ public class Square
         zone.changePosition(0, 0);
         zone.changeSize(dimensionX, dimensionY);
         zone.changeColor("blue");
-        requestedView = new ArrayList();
+        requestedView = new ArrayList<>();
     }
     
     /**
@@ -50,14 +44,7 @@ public class Square
      * @Param desiredView 
      */
     public Square(int[] dimensions, int[][] domes, int[] desiredView){
-        ok = true;
-        dimensionX = dimensions[0];
-        dimensionY = dimensions[1];
-        visible = false;
-        safetyDistance = 1;
-        zone.changePosition(0, 0);
-        zone.changeSize(dimensionX, dimensionY);
-        zone.changeColor("blue");
+        this(dimensions[0], dimensions[1], 20);
         addMultiDoms(domes, dimensions[2], desiredView);
     }
     
@@ -67,13 +54,11 @@ public class Square
      * @Param dome List with the color from the first to the last of the domes in the order that they should appear
      */
     public void defineRequestedPhoto(String[] dome){
-        ArrayList<String> order = new ArrayList<String>(Arrays.asList(dome));
-        requestedView = order;
+        requestedView = new ArrayList<>(Arrays.asList(dome));
     }
     
     public int[] getDimensions(){
-        int[] dimensions = {dimensionX, dimensionY};
-        return dimensions;
+        return new int[]{dimensionX, dimensionY};
     }
     
     public int getSafetyDistance(){
@@ -92,29 +77,23 @@ public class Square
      * @Param x Position x in which the dome is located.
      * @Param y Position y in which the dome is located.
      */
-    public void addDome(String color, int x, int y){
-        Dome dome = new Dome();
+    public void addDome(String color, int x, int y) throws ExceptionSquare{
+        if (domes.containsKey(color)){
+            ok = false;
+            throw new ExceptionSquare(ExceptionSquare.ALREADY_ADDED);
+        }
+        if (!(0 < x && x <= dimensionX - dimensionX / 10) || !(0 < y && y <= dimensionY - dimensionX / 10)){
+            ok = false;
+            throw new ExceptionSquare(ExceptionSquare.BAD_LOCATION);
+        }
+
+        ok = true;
+        eraseAmbient();
+        Dome dome = new Dome(dimensionX);
         dome.setColor(color);
         dome.setCor(x, y);
-        if (!(domes.containsKey(color))){
-            if (0 < x && x <=dimensionX - dome.getDiameter()){
-                if (0 < y && x <=dimensionY - dome.getDiameter()){
-                    ok = true;
-                    eraseAmbient();
-                    domes.put(color, dome);
-                    drawAmbient();
-                } else{
-                    ok = false;
-                    JOptionPane.showMessageDialog(null,"Excede el espacio en y :0");
-                }
-            } else{
-                ok = false;
-                JOptionPane.showMessageDialog(null,"Excede el espacio en x :0");
-            }
-        } else{
-            ok = false;
-            JOptionPane.showMessageDialog(null,"Este domo ya existe :0");
-        }
+        domes.put(color, dome);
+        drawAmbient();
     }
     
     /**
@@ -122,16 +101,16 @@ public class Square
      * @Param dome Color with which the dome that we want 
      * to erase is identified.
      */
-    public void delDome(String dome){
-        if (domes.containsKey(dome)){
-            ok = true;
-            eraseAmbient();
-            domes.remove(dome);
-            drawAmbient();
-        } else{
-         ok = false;
-         JOptionPane.showMessageDialog(null,"Este domo aun no existe ^^");
+    public void delDome(String dome) throws ExceptionSquare {
+        if (!(domes.containsKey(dome))){
+            ok = false;
+            throw new ExceptionSquare(ExceptionSquare.ALREADY_ADDED);
         }
+
+        ok = true;
+        eraseAmbient();
+        domes.remove(dome);
+        drawAmbient();
     }
     
     /**
@@ -140,29 +119,23 @@ public class Square
      * @Param x Position x in which the turist is located.
      * @Param y Position y in which the turist is located.
      */
-    public void touristArrive(String color, int x, int y){
-        Turist turist = new Turist();
-        turist.setColor(color);
-        turist.setCor(x + (safetyDistance * (turis.size() + 1)), y + (safetyDistance * (turis.size() + 1)));
-        if (!(domes.containsKey(color))){
-            if (0 < x && x <=dimensionX - turist.getHeight()){
-                if (0 < y && x <=dimensionY - turist.getHeight()){
-                    ok = true;
-                    eraseAmbient();
-                    turis.put(color, turist);
-                    drawAmbient();
-                } else{
-                    ok = false;
-                    JOptionPane.showMessageDialog(null,"Excede el espacio en y :3");
-                }
-            } else{
-                ok = false;
-                JOptionPane.showMessageDialog(null,"Excede el espacio en x :3");
-            }
-        } else{
+    public void touristArrive(String color, int x, int y) throws ExceptionSquare {
+        if (turis.containsKey(color)){
             ok = false;
-            JOptionPane.showMessageDialog(null,"Este turista ya existe :3");
+            throw new ExceptionSquare(ExceptionSquare.ALREADY_ADDED);
         }
+        if (!(0 < x && x <= dimensionX - dimensionX / 1000) || !(0 < y && y <= dimensionY - dimensionY / 10)){
+            ok = false;
+            throw new ExceptionSquare(ExceptionSquare.BAD_LOCATION);
+        }
+
+        ok = true;
+        eraseAmbient();
+        Turist turist = new Turist(dimensionX, dimensionY);
+        turist.setColor(color);
+        turist.setCor(x + safetyDistance, y + safetyDistance);
+        turis.put(color, turist);
+        drawAmbient();
     }
     
     /**
@@ -172,30 +145,22 @@ public class Square
      * @Param y y axis position.
      * @Param angle angle to which it is facing.
      */
-    public void touristMove(String tourist, int x, int y, int angle){
-        if (turis.containsKey(tourist)){
-            if (0 < x && x <=dimensionX){
-                if (0 < y && x <=dimensionY){
-                    ok = true;
-                    eraseAmbient();
-                    Turist turist = new Turist();
-                    turist.setColor(tourist);
-                    turist.setCor(x, y);
-                    turist.setAngle(angle);
-                    turis.replace(tourist, turist);
-                    drawAmbient();
-                } else{
-                    ok = false;
-                    JOptionPane.showMessageDialog(null,"Excede el espacio en y :3");
-                }
-            } else{
-                ok = false;
-                JOptionPane.showMessageDialog(null,"Excede el espacio en x :3");
-            }
-        } else{
+    public void touristMove(String tourist, int x, int y, int angle) throws ExceptionSquare {
+        if (!(turis.containsKey(tourist))){
             ok = false;
-            JOptionPane.showMessageDialog(null,"Este turista no existe :3");
+            throw new ExceptionSquare(ExceptionSquare.NOT_ADDED);
         }
+        if (!(0 < x && x <= dimensionX - dimensionX / 1000) || !(0 < y && y <= dimensionY - dimensionY / 10)){
+            ok = false;
+            throw new ExceptionSquare(ExceptionSquare.BAD_LOCATION);
+        }
+
+        ok = true;
+        eraseAmbient();
+        turis.get(tourist).setAngle(angle);
+        turis.get(tourist).setXposition(x);
+        turis.get(tourist).setYposition(y);
+        drawAmbient();
     }
     
     /**
@@ -203,15 +168,21 @@ public class Square
      * which domes will appear at an angle of 180 degrees.
      * @Param tourist color of the tourist to be photographed.
      */
-    public String[] touristTakePhoto(String tourist){
-        ArrayList<String> domeViews = new ArrayList();
+    public String[] touristTakePhoto(String tourist) throws ExceptionSquare {
+        if (!(turis.containsKey(tourist))){
+            ok = false;
+            throw new ExceptionSquare(ExceptionSquare.NOT_ADDED);
+        }
+
+        ok = true;
+        ArrayList<String> domeViews = new ArrayList<>();
         Turist photographer = turis.get(tourist);
         int xCor = photographer.getXcor();
         int yCor = photographer.getYcor();
         int angleDir = photographer.getAngle();
         zone.changeColor("green");
         eraseAmbient();
-     for (String e: domes()){
+        for (String e: domes()){
             if (angleDir >= 270 && angleDir < 360){
                 if (angleDir == 270 && xCor < (domes.get(e).getXcor())){
                     domeViews.add(e);
@@ -242,8 +213,14 @@ public class Square
      * @Param tourist color of the tourist to be photographed.
      * @Param viewAngle angle of vision from which you want to know the domes that can be observed
      */
-        public String[] touristTakePhoto(String tourist, int viewAngle){
-        ArrayList<String> domeViews = new ArrayList();
+    public String[] touristTakePhoto(String tourist, int viewAngle) throws ExceptionSquare {
+        if (!(turis.containsKey(tourist))){
+            ok = false;
+            throw new ExceptionSquare(ExceptionSquare.NOT_ADDED);
+        }
+
+        ok = true;
+        ArrayList<String> domeViews = new ArrayList<>();
         Turist photographer = turis.get(tourist);
         int xCor = photographer.getXcor();
         int yCor = photographer.getYcor();
@@ -275,80 +252,90 @@ public class Square
      * Some tourist takes the requested photo
      */
     public void takeRequestedPhoto(){
-        ArrayList<String> Possible = new ArrayList<String>(Arrays.asList(whoRequestedPhoto()));
-        String choose = "";
-        ArrayList<String> lossed = new ArrayList();
-        int maxCant = 0;
-        for (String e: Possible){
-            int cant = 0;
-            ArrayList<String> loss = new ArrayList();
-            for (String d: touristTakePhoto(e)){
-                if (requestedView.contains(d)){
-                    cant++;
-                } else{
-                    loss.add(d);
-                }
-                if (cant > maxCant){
-                    maxCant = cant;
-                    choose = e;
-                }
-            }
-            lossed = loss;
-        }
-        if (choose != "" && lossed.size() != 0){
-            int difDistance = 0;
-            int chooseAngle = turis.get(choose).getAngle();
-            if (chooseAngle == 270 || chooseAngle == 90){
-                for (String i: lossed){
-                    int dif = turis.get(choose).getXcor() - domes.get(i).getXcor();
-                    if (dif > 0 && dif > difDistance){
-                        dif = difDistance;
-                    } else if (dif < 0 && dif < difDistance){
-                        dif = difDistance;
+        try {
+            ArrayList<String> Possible = new ArrayList<>(Arrays.asList(whoRequestedPhoto()));
+            String choose = "";
+            ArrayList<String> lossed = new ArrayList<>();
+            int maxCant = 0;
+            for (String e: Possible){
+                int cant = 0;
+                ArrayList<String> loss = new ArrayList<>();
+                for (String d: touristTakePhoto(e)){
+                    if (requestedView.contains(d)){
+                        cant++;
+                    } else{
+                        loss.add(d);
+                    }
+                    if (cant > maxCant){
+                        maxCant = cant;
+                        choose = e;
                     }
                 }
-                if (difDistance > 0){
-                    touristMove(choose, turis.get(choose).getXcor() - difDistance - safetyDistance, turis.get(choose).getYcor(), chooseAngle);
-                } else {
-                    touristMove(choose, turis.get(choose).getXcor() + difDistance + safetyDistance, turis.get(choose).getYcor(), chooseAngle);
-                }
-            } else if(chooseAngle == 0 || chooseAngle == 180){
-                for (String i: lossed){
-                    int dif = turis.get(choose).getXcor() - domes.get(i).getXcor();
-                    if (dif > 0 && dif > difDistance){
-                        dif = difDistance;
-                    } else if (dif < 0 && dif < difDistance){
-                        dif = difDistance;
+                lossed = loss;
+            }
+            if (!Objects.equals(choose, "") && lossed.size() != 0){
+                int difDistance = 0;
+                int chooseAngle = turis.get(choose).getAngle();
+                if (chooseAngle == 270 || chooseAngle == 90){
+                    for (String i: lossed){
+                        int dif = turis.get(choose).getXcor() - domes.get(i).getXcor();
+                        if (dif > 0 && dif > difDistance){
+                            dif = difDistance;
+                        } else if (dif < 0 && dif < difDistance){
+                            dif = difDistance;
+                        }
+                    }
+                    if (difDistance > 0){
+                        touristMove(choose, turis.get(choose).getXcor() - difDistance - safetyDistance, turis.get(choose).getYcor(), chooseAngle);
+                    } else {
+                        touristMove(choose, turis.get(choose).getXcor() + difDistance + safetyDistance, turis.get(choose).getYcor(), chooseAngle);
+                    }
+                } else if(chooseAngle == 0 || chooseAngle == 180){
+                    for (String i: lossed){
+                        int dif = turis.get(choose).getXcor() - domes.get(i).getXcor();
+                        if (dif > 0 && dif > difDistance){
+                            dif = difDistance;
+                        } else if (dif < 0 && dif < difDistance){
+                            dif = difDistance;
+                        }
+                    }
+                    if (difDistance > 0){
+                        touristMove(choose, turis.get(choose).getXcor(), turis.get(choose).getYcor() - difDistance - safetyDistance, chooseAngle);
+                    } else {
+                        touristMove(choose, turis.get(choose).getXcor(), turis.get(choose).getYcor() + difDistance + safetyDistance, chooseAngle);
                     }
                 }
-                if (difDistance > 0){
-                    touristMove(choose, turis.get(choose).getXcor(), turis.get(choose).getYcor() - difDistance - safetyDistance, chooseAngle);
-                } else {
-                    touristMove(choose, turis.get(choose).getXcor(), turis.get(choose).getYcor() + difDistance + safetyDistance, chooseAngle);
-                }
+                touristTakePhoto(choose);
+            } else{
+                throw new ExceptionSquare(ExceptionSquare.NO_PHOTO);
             }
-            touristTakePhoto(choose);
-        } else{
-            JOptionPane.showMessageDialog(null,"No se puede tomar la foto");
+        } catch (ExceptionSquare a){
+            System.out.println(a.getMessage());
         }
     }
     
     /**
      * Returns a list of tourists who can take the requested photo
      */
-    public String[] whoRequestedPhoto(){
-        ArrayList<String> allowed = new ArrayList();
-        String[] turiss = tourists();
-        for(String e: turiss){
-            String[] photo = touristTakePhoto(e);
-            ArrayList<String> viewTouris = new ArrayList<String>(Arrays.asList(photo));
-            if (viewTouris.equals(requestedView)){
-                allowed.add(e);
+    public String[] whoRequestedPhoto() {
+        ArrayList<String> allowed = null;
+        try {
+            allowed = new ArrayList<>();
+            String[] turiss = tourists();
+            for (String e : turiss) {
+                String[] photo = touristTakePhoto(e);
+                ArrayList<String> viewTouris = new ArrayList<>(Arrays.asList(photo));
+                if (viewTouris.equals(requestedView)) {
+                    allowed.add(e);
+                }
             }
+        } catch (ExceptionSquare b) {
+            System.out.println(b.getMessage());
+        } finally {
+            String[] result = new String[allowed.size()];
+            allowed.toArray(result);
+            return result;
         }
-        String[] result = new String[allowed.size()];
-        allowed.toArray(result);
-        return result;
     }
     
     /**
@@ -377,7 +364,12 @@ public class Square
      * We return the coordinates of the desired dome.
      * @Param dome Color that identifies the dome.
      */
-    public int[] dome(String dome){
+    public int[] dome(String dome) throws ExceptionSquare {
+        if (!(domes.containsKey(dome))){
+            ok = false;
+            throw new ExceptionSquare(ExceptionSquare.NOT_ADDED);
+        }
+
         ok = true;
         int[] coor = new int[2];
         Dome searchDome = domes.get(dome);
@@ -390,7 +382,12 @@ public class Square
      * We return the coordinates of the desired turist.
      * @Param tourist Color that identifies the turist.
      */
-    public int[] tourist(String tourist){
+    public int[] tourist(String tourist) throws ExceptionSquare {
+        if (!(turis.containsKey(tourist))){
+            ok = false;
+            throw new ExceptionSquare(ExceptionSquare.NOT_ADDED);
+        }
+
         ok = true;
         int[] coor = new int[3];
         Turist searchTourist = turis.get(tourist);
@@ -424,11 +421,13 @@ public class Square
         public void finish(){
         ok = true;
         eraseAmbient();
+        String[] dome = domes();
+        String[] tourist = tourists();
         for (int d = 0; d < domes.size(); d++){
-            domes.remove(d);
+            domes.remove(dome[d]);
         }
         for (int t = 0; t < turis.size(); t++){
-            turis.remove(t);
+            turis.remove(tourist[t]);
         }
     }
     
@@ -445,7 +444,7 @@ public class Square
     private void drawAmbient(){
         if (visible){
             zone.makeVisible();
-            ArrayList<String> orderAppear = new ArrayList();
+            ArrayList<String> orderAppear = new ArrayList<>();
             if (requestedView.size() == 0){
                 for (String e: domes()){
                     orderAppear.add(e);
@@ -488,8 +487,8 @@ public class Square
      */
     private ArrayList<String> colorsNuse(){
         String[] tooColors = {"green", "red", "black", "yellow", "magenta", "white", "orange", "light blue", "violet", "pink", "aquamarine"};
-        ArrayList<String> colors = new ArrayList();
-        ArrayList<String> exist = new ArrayList<String>(Arrays.asList(domes()));;
+        ArrayList<String> colors = new ArrayList<>();
+        ArrayList<String> exist = new ArrayList<>(Arrays.asList(domes()));;
         for (String e: tooColors){
             if (!(exist.contains(e))){
                 colors.add(e);
@@ -505,23 +504,26 @@ public class Square
      * @Param views list with the order of how the domes should appear
      */
     private void addMultiDoms(int[][] domes, int cant, int[] views){
-        // sobrecargar con el setforgroun
-        String[] order = new String[cant]; // [null, null, null,...]
-        ArrayList<Integer> viewInt = new ArrayList();
-        for (int e: views){
-            viewInt.add(e);
-        }
-        
-        for (int i = 0; i < viewInt.size(); i++){
-            ArrayList<String> colorsExist = colorsNuse();
-            if (!(colorsExist.size() == 0)){
-                int randomInt = (int)Math.random()*(colorsExist.size()); // 0 - 1 + n -> 0 -> n
-                String color = colorsExist.get(randomInt);
-                order[viewInt.indexOf(i + 1)] = color; // [3, 2, 1], index(1) = 2
-                addDome(color, domes[i][0], domes[i][1]); // addDome("magenta", xi, yi)
+        try {
+            // sobrecargar con el setforgroun
+            String[] order = new String[cant]; // [null, null, null,...]
+            ArrayList<Integer> viewInt = new ArrayList<>();
+            for (int e: views){
+                viewInt.add(e);
             }
+
+            for (int i = 0; i < viewInt.size(); i++){
+                ArrayList<String> colorsExist = colorsNuse();
+                if (!(colorsExist.size() == 0)){
+                    int randomInt = (int)(Math.random()*colorsExist.size()); // 0 - 1 + n -> 0 -> n
+                    String color = colorsExist.get(randomInt);
+                    order[viewInt.indexOf(i + 1)] = color; // [3, 2, 1], index(1) = 2
+                    addDome(color, domes[i][0], domes[i][1]); // addDome("magenta", xi, yi)
+                }
+            }
+            requestedView = new ArrayList<>(Arrays.asList(order));
+        } catch (ExceptionSquare c){
+            System.out.println(c.getMessage());
         }
-        ArrayList<String> orders = new ArrayList<String>(Arrays.asList(order));
-        requestedView = orders;
     }
 }

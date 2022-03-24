@@ -42,6 +42,8 @@ public class Triangle{
     public int getHeight(){
         return height;
     }
+
+    public int getWidth() {return width;}
     
     /**
      * Sets the angle the triangle faces.
@@ -210,7 +212,7 @@ public class Triangle{
     /**
      * Change the size to the new size
      * @param newHeight the new height in pixels. newHeight must be >=0.
-     * @param newWidht the new width in pixels. newWidht must be >=0.
+     * @param newWidth the new width in pixels. newWidht must be >=0.
      */
     public void changeSize(int newHeight, int newWidth) {
         erase();
@@ -223,7 +225,7 @@ public class Triangle{
     
     /**
      * Change the color. 
-     * @param color the new color. Valid colors are "red", "yellow", "blue", "green",
+     * @param newColor the new color. Valid colors are "red", "yellow", "blue", "green",
      * "magenta" and "black".
      */
     public void changeColor(String newColor){

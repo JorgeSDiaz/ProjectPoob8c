@@ -1,8 +1,8 @@
 #BlueJ class context
 comment0.target=Dome
 comment0.text=\r\n\ represents\ the\ dome\ of\ a\ construction\ like\ a\ Circle.\r\n\ \r\n\ @author\ Luisa\ De\ la\ Hoz\ y\ Jorge\ Saenz.\r\n\ @version\ 8/02/22.\r\n
-comment1.params=
-comment1.target=Dome()
+comment1.params=size
+comment1.target=Dome(int)
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Dome\r\n
 comment10.params=time
 comment10.target=void\ draw(int)
