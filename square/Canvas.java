@@ -49,7 +49,7 @@ public class Canvas{
      * @param title  title to appear in Canvas Frame
      * @param width  the desired width for the canvas
      * @param height  the desired height for the canvas
-     * @param bgClour  the desired background colour of the canvas
+     * @param bgColour  the desired background colour of the canvas
      */
     private Canvas(String title, int width, int height, Color bgColour){
         frame = new JFrame();
@@ -99,6 +99,13 @@ public class Canvas{
         shapes.put(referenceObject, new ShapeDescription(shape, color, xCor, yCor, angle, isRotate));
         redraw();
     }
+
+    public void draw(Object referenceObject, int[] color, Shape shape, int xCor, int yCor, int angle, boolean isRotate){
+        objects.remove(referenceObject);   // just in case it was already there
+        objects.add(referenceObject);      // add at the end
+        shapes.put(referenceObject, new ShapeDescription(shape, color, xCor, yCor, angle, isRotate));
+        redraw();
+    }
  
     /**
      * Erase a given shape's from the screen.
@@ -141,6 +148,10 @@ public class Canvas{
             graphic.setColor(new Color(66,245,133));
         else
             graphic.setColor(Color.black);
+    }
+
+    public void setForegroundColor(int r, int g, int b){
+        graphic.setColor(new Color(r, g, b));
     }
 
     /**
@@ -199,6 +210,7 @@ public class Canvas{
     private class ShapeDescription{
         private Shape shape;
         private String colorString;
+        private int[] colorRGB;
         private int xCor;
         private int yCor;
         private int angle;
@@ -213,12 +225,21 @@ public class Canvas{
             this.isRotate = isRotate;
         }
 
+        public ShapeDescription(Shape shape, int[] color, int xCor, int yCor, int angle, boolean isRotate){
+            this(shape, "notdefined", xCor, yCor, angle, isRotate);
+            colorRGB = color;
+        }
+
         public void draw(Graphics2D graphic){
             AffineTransform old = graphic.getTransform();
             if (isRotate){
                 graphic.rotate(Math.toRadians(angle), xCor, yCor);
             }
-            setForegroundColor(colorString);
+            if (!Objects.equals(colorString, "notdefined")) {
+                setForegroundColor(colorString);
+            } else {
+                setForegroundColor(colorRGB[0], colorRGB[1], colorRGB[2]);
+            }
             graphic.fill(shape);
             graphic.setTransform(old);
         }

@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 /**
  * The test class SquareC2Test.
  *
- * @author  (your name)
- * @version (a version number or a date)
+ * @author  Valentina de la Hoz y Jorge Saenz.
+ * @version 4.0
  */
 public class SquareC2Test
 {
@@ -38,7 +38,7 @@ public class SquareC2Test
     
     @Test
     /**
-     * 
+     * A zone is created correctly
      */
     public void shouldCreateZoneDimensionsSafeDis(){
         Square zone = new Square(100, 100, 5);
@@ -49,9 +49,9 @@ public class SquareC2Test
     
     @Test
     /**
-     * 
+     * A zone is correctly created based on its dimensions, its domes and its desired view.
      */
-    public void shouldCreateZoneMultiDoms() throws ExceptionSquare {
+    public void shouldCreateZoneMultiDoms(){
         int[] dimensions = {200, 200, 3};
         int[][] dome = {{100, 120}, {70, 90}, {150, 10}};
         int[] desiredView = {3, 1, 2};
@@ -63,7 +63,7 @@ public class SquareC2Test
     
     @Test
     /**
-     * 
+     * A new desired view is defined
      */
     public void shouldDefineRequestedPhoto(){
         String[] dome = {"red", "blue", "white"};
@@ -73,7 +73,7 @@ public class SquareC2Test
     
     @Test
     /**
-     * 
+     * a dome is added correctly
      */
     public void shouldAddDome() throws ExceptionSquare {
         zoneA.addDome("red", 50, 50);
@@ -83,7 +83,7 @@ public class SquareC2Test
     
     @Test
     /**
-     * 
+     * a dome is deleted correctly
      */
     public void shouldDelDome() throws ExceptionSquare {
         zoneA.addDome("pink", 50, 50);
@@ -94,7 +94,7 @@ public class SquareC2Test
     
     @Test
     /**
-     * 
+     * a tourist is added correctly
      */
     public void shouldTouristArrive() throws ExceptionSquare {
         zoneA.touristArrive("pink", 25, 50);
@@ -105,7 +105,7 @@ public class SquareC2Test
     
     @Test
     /**
-     * 
+     * a tourist moves in the right way
      */
     public void shoulTouristMove() throws ExceptionSquare {
         zoneA.touristArrive("pink", 25, 50);
@@ -120,7 +120,7 @@ public class SquareC2Test
     
     @Test
     /**
-     * 
+     * Photo is taken
      */
     public void shouldTouristTakePhoto() throws ExceptionSquare {
         zoneA.touristArrive("pink", 100, 100);
@@ -140,17 +140,59 @@ public class SquareC2Test
     
     @Test
     /**
-     * 
+     * It gives us who can take the defined forum
      */
     public void shouldWhoRequestedPhoto() throws ExceptionSquare {
         int[] dimensions = {300, 250, 3};
-        int[][] dome = {{150, 100}, {110, 25}, {200, 100}};
-        int[] desiredView = {2, 1, 3};
+        int[][] dome = {{110, 25}, {200, 202}, {155, 201}};
+        int[] desiredView = {1, 2, 3};
         Square zoneC = new Square(dimensions, dome, desiredView);
-        zoneC.touristArrive("pink", 30, 30);
-        zoneC.touristMove("pink", 30, 30, 270);
+        zoneC.touristArrive("pink", 50, 50);
+        zoneC.touristMove("pink", 50, 50, 270);
         String[] res = {"pink"};
         assertArrayEquals(res, zoneC.whoRequestedPhoto());
+    }
+
+    @Test
+    /**
+     * A complete list of domes in the area is obtained.
+     */
+    public void shouldGetDomes() throws ExceptionSquare {
+        zoneA.addDome("red", 10, 10);
+        zoneA.addDome("orange", 40, 40);
+        String[] domes = {"red", "orange"};
+        assertArrayEquals(domes, zoneA.domes());
+    }
+
+    @Test
+    /**
+     * A complete list of tourists in the area is obtained.
+     */
+    public void shouldGetTourist() throws ExceptionSquare {
+        zoneA.touristArrive("red", 10, 10);
+        zoneA.touristArrive("orange", 40, 40);
+        String[] tourist = {"red", "orange"};
+        assertArrayEquals(tourist, zoneA.tourists());
+    }
+
+    @Test
+    /**
+     * A list with complete information about a specific dome in the area is obtained.
+     */
+    public void shouldGetDomeInfo() throws ExceptionSquare {
+        zoneA.addDome("red", 10, 10);
+        int[] domeInfo = {10, 10};
+        assertArrayEquals(domeInfo, zoneA.dome("red"));
+    }
+
+    @Test
+    /**
+     * A list with internally modified information to fit the area is obtained from a tourist.
+     */
+    public void shouldGetTouristInfo() throws ExceptionSquare {
+        zoneA.touristArrive("orange", 40, 40);
+        int[] touristInfo = {45, 45, 90};
+        assertArrayEquals(touristInfo, zoneA.tourist("orange"));
     }
 
     /**

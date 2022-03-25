@@ -21,9 +21,7 @@ public class Turist
     }
 
     private void newSize(int height, int width){
-        int newHeight = height / 1000;
-        int newWidth = width / 10;
-        turis.changeSize(newHeight, newWidth);
+        turis.changeSize(height / 10, width / 100);
     }
     
     /**

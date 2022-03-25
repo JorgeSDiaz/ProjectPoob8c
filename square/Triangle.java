@@ -20,8 +20,6 @@ public class Triangle{
     private boolean isVisible;
     private int angle;
     private boolean isRotate;
-    private int[] xPoints;
-    private int[] yPoints;
 
     /**
      * Create a new triangle at default position with default color.
@@ -35,8 +33,6 @@ public class Triangle{
         isVisible = false;
         angle = 0;
         isRotate = false;
-        xPoints = new int[3];
-        yPoints = new int[3];
     }
     
     public int getHeight(){
@@ -241,12 +237,8 @@ public class Triangle{
     private void draw(){
         if(isVisible) {
             Canvas canvas = Canvas.getCanvas();
-            xPoints[0] = xPosition;
-            xPoints[1] = xPosition + (width/2);
-            xPoints[2] = xPosition - (width/2);
-            yPoints[0] = yPosition;
-            yPoints[0] = yPosition + height;
-            yPoints[0] = yPosition + height;
+            int[] xPoints = {xPosition, xPosition + (width/2), xPosition - (width/2)};
+            int[] yPoints = {yPosition, yPosition + height , yPosition + height};
             canvas.draw(this, color, new Polygon(xPoints, yPoints, 3), xPosition,(3*yPosition+2*height)/3,angle,isRotate);
             canvas.wait(10);
         }

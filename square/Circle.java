@@ -20,6 +20,7 @@ public class Circle{
     private int xPosition;
     private int yPosition;
     private String color;
+    private int[] colorRGB;
     private boolean isVisible;
     
 
@@ -118,9 +119,15 @@ public class Circle{
     private void draw(int time){
         if(isVisible) {
             Canvas canvas = Canvas.getCanvas();
-            canvas.draw(this, color, 
-                new Ellipse2D.Double(xPosition, yPosition, 
-                diameter, diameter), xPosition, yPosition, 0, false);
+            if (colorRGB.length == 0){
+                canvas.draw(this, color,
+                        new Ellipse2D.Double(xPosition, yPosition,
+                                diameter, diameter), xPosition, yPosition, 0, false);
+            } else {
+                canvas.draw(this, colorRGB,
+                        new Ellipse2D.Double(xPosition, yPosition,
+                                diameter, diameter), xPosition, yPosition, 0, false);
+            }
             canvas.wait(time);
         }
     }
@@ -233,11 +240,18 @@ public class Circle{
 
     /**
      * Change the color. 
-     * @param color the new color. Valid colors are "red", "yellow", "blue", "green",
+     * @param newColor the new color. Valid colors are "red", "yellow", "blue", "green",
      * "magenta", "orange", "light blue", "violet" and "black".
      */
     public void changeColor(String newColor){
         color = newColor;
+        if (isVisible){
+            draw(10);
+        }
+    }
+
+    public void changeColor(int[] newColor){
+        colorRGB = newColor;
         if (isVisible){
             draw(10);
         }
