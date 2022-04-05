@@ -1,0 +1,15 @@
+1. Se crea un Square con los siguientes datos: 400, 570, 10 (Square())
+2. Añadimos 5 domos, {"red", 150, 200} {"violet", 110, 25} {"yellow", 200, 30, "shy"} {"orange", 200, 200 "fixed"} {"white", 20, 40} (Addome())
+3. Añadimos un domo más {"orange", 90, 90} (Debería de saltar una Excepción)
+4. Añadimos 2 Turistas, {"pink", 100, 100}, {"red", 200, 300, "turis360"} (touristArrive())
+5. Añadimos 1 turista más, {"green", 20, 500, "normal"} (Debería saltar una Excepción)
+6. Añadamos 1 domo más, {"blue", 600, 900} (Salta una Excepción)
+7. Movemos a uno de los turistas, {"pink", 100, 100, 270} (touristMove())
+8. Comprobamos que hasta el momento se hay hehcho correctamente (ok())
+9. Hacemos que el turista "pink", tome una foto (touristTakePhoto())
+10. Movemos al turista "pink" {"pink", 100, 100, 180} y tomamos la foto con el
+11. tomamos una foto con el turista "red"
+12. Consultamos que domos tenemos (domes())
+13. Consultamos la información del turista "red" (tourist(String))
+14. Borramos el domo "orange" (delDome())
+15. Comprobamos si se ejecuto a la perfección (OK())
