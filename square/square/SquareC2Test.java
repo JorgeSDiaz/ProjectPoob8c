@@ -20,7 +20,7 @@ public class SquareC2Test
     /**
      * Default constructor for test class SquareC2Test
      */
-    public SquareC2Test() throws ExceptionSquare {
+    public SquareC2Test(){
         zoneA = new Square(1000, 1000, 5);
         int[] dimensions = {300, 230, 3};
         int[][] dome = {{100, 120}, {70, 90}, {150, 10}};
@@ -78,7 +78,7 @@ public class SquareC2Test
      * a dome is added correctly
      */
     public void shouldAddDomeNormal() throws ExceptionSquare {
-        zoneA.addDome("red", 50, 50, 'n');
+        zoneA.addDome("red", 50, 50);
         String[] dome = {"red"};
         assertArrayEquals(dome, zoneA.domes());
     }
@@ -88,8 +88,8 @@ public class SquareC2Test
      * a dome is deleted correctly
      */
     public void shouldDelDome() throws ExceptionSquare {
-        zoneA.addDome("pink", 50, 50, 'n');
-        zoneA.addDome("light blue", 25, 25, 'n');
+        zoneA.addDome("pink", 50, 50);
+        zoneA.addDome("light blue", 25, 25);
         zoneA.delDome("pink");
         assertEquals(1, zoneA.domes().length);
     }
@@ -99,9 +99,9 @@ public class SquareC2Test
      * a tourist is added correctly
      */
     public void shouldTouristArrive() throws ExceptionSquare {
-        zoneA.touristArrive("pink", 25, 50, 'n');
-        zoneA.touristArrive("white", 30, 30, 'n');
-        zoneA.touristArrive("black", 50, 60, 'n');
+        zoneA.touristArrive("pink", 25, 50);
+        zoneA.touristArrive("white", 30, 30);
+        zoneA.touristArrive("black", 50, 60);
         assertEquals(3, zoneA.tourists().length);
     }
     
@@ -110,8 +110,8 @@ public class SquareC2Test
      * a tourist moves in the right way
      */
     public void shoulTouristMove() throws ExceptionSquare {
-        zoneA.touristArrive("pink", 25, 50, 'n');
-        zoneA.touristArrive("white", 30, 30, 'n');
+        zoneA.touristArrive("pink", 25, 50);
+        zoneA.touristArrive("white", 30, 30);
         zoneA.touristMove("pink", 50, 50, 75);
         zoneA.touristMove("white", 20, 10, 180);
         int[] pinkData = {50, 50, 75};
@@ -125,15 +125,15 @@ public class SquareC2Test
      * Photo is taken
      */
     public void shouldTouristTakePhoto() throws ExceptionSquare {
-        zoneA.touristArrive("pink", 100, 100, 'n');
-        zoneA.touristArrive("white", 200, 200, 'n');
+        zoneA.touristArrive("pink", 100, 100);
+        zoneA.touristArrive("white", 200, 200);
         zoneA.touristMove("pink", 50, 50, 270);
         zoneA.touristMove("white", 20, 10, 90);
-        zoneA.addDome("pink", 50, 50, 'n');
-        zoneA.addDome("blue", 110, 25, 'n');
-        zoneA.addDome("violet", 10, 90, 'n');
-        zoneA.addDome("light blue", 200, 200, 'n');
-        zoneA.addDome("orange", 150, 200, 'n');
+        zoneA.addDome("pink", 50, 50);
+        zoneA.addDome("blue", 110, 25);
+        zoneA.addDome("violet", 10, 90);
+        zoneA.addDome("light blue", 200, 200);
+        zoneA.addDome("orange", 150, 200);
         String[] pinkView = {"orange", "blue", "light blue"};
         String[] whiteView = {"violet"};
         assertArrayEquals(pinkView, zoneA.touristTakePhoto("pink"));
@@ -149,7 +149,7 @@ public class SquareC2Test
         int[][] dome = {{110, 25}, {200, 202}, {155, 201}};
         int[] desiredView = {1, 2, 3};
         Square zoneC = new Square(dimensions, dome, desiredView);
-        zoneC.touristArrive("pink", 50, 50, 'n');
+        zoneC.touristArrive("pink", 50, 50);
         zoneC.touristMove("pink", 50, 50, 270);
         String[] res = {"pink"};
         assertArrayEquals(res, zoneC.whoRequestedPhoto());
@@ -160,8 +160,8 @@ public class SquareC2Test
      * A complete list of domes in the area is obtained.
      */
     public void shouldGetDomes() throws ExceptionSquare {
-        zoneA.addDome("red", 10, 10, 'n');
-        zoneA.addDome("orange", 40, 40, 'n');
+        zoneA.addDome("red", 10, 10);
+        zoneA.addDome("orange", 40, 40);
         String[] domes = {"red", "orange"};
         assertArrayEquals(domes, zoneA.domes());
     }
@@ -171,8 +171,8 @@ public class SquareC2Test
      * A complete list of tourists in the area is obtained.
      */
     public void shouldGetTourist() throws ExceptionSquare {
-        zoneA.touristArrive("red", 10, 10, 'n');
-        zoneA.touristArrive("orange", 40, 40, 'n');
+        zoneA.touristArrive("red", 10, 10);
+        zoneA.touristArrive("orange", 40, 40);
         String[] tourist = {"red", "orange"};
         assertArrayEquals(tourist, zoneA.tourists());
     }
@@ -182,7 +182,7 @@ public class SquareC2Test
      * A list with complete information about a specific dome in the area is obtained.
      */
     public void shouldGetDomeInfo() throws ExceptionSquare {
-        zoneA.addDome("red", 10, 10, 'n');
+        zoneA.addDome("red", 10, 10);
         int[] domeInfo = {10, 10};
         assertArrayEquals(domeInfo, zoneA.dome("red"));
     }
@@ -192,7 +192,7 @@ public class SquareC2Test
      * A list with internally modified information to fit the area is obtained from a tourist.
      */
     public void shouldGetTouristInfo() throws ExceptionSquare {
-        zoneA.touristArrive("orange", 40, 40, 'n');
+        zoneA.touristArrive("orange", 40, 40);
         int[] touristInfo = {45, 45, 90};
         assertArrayEquals(touristInfo, zoneA.tourist("orange"));
     }

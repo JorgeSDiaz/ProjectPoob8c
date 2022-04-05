@@ -11,7 +11,7 @@ import shapes.Canvas;
 
 
  
-public class Rectangle{
+public class Rectangle extends Shapes{
 
     public static int EDGES = 4;
     

@@ -11,17 +11,17 @@ import java.awt.*;
  * @version 1.0  (15 July 2000)
  */
 
-public class Triangle{
+public class Triangle extends Shapes{
     
     public static int VERTICES=3;
     
-    private int height;
-    private int width;
-    private int xPosition;
-    private int yPosition;
-    private String color;
-    private boolean isVisible;
-    private int angle;
+    protected int height;
+    protected int width;
+    protected int xPosition;
+    protected int yPosition;
+    protected String color;
+    protected boolean isVisible;
+    protected int angle;
     private boolean isRotate;
 
     /**

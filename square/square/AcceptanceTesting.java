@@ -22,14 +22,14 @@ public class AcceptanceTesting {
                 // valentinaZone.addDome(castillo, 150, 200);
 
                 // Ay, se me olvido, verdad que la chica dijo que los describiera con el color que veía en sus tejados
-                valentinaZone.addDome("red", 150, 200, 'n');
-                valentinaZone.addDome("violet", 110, 25, 'n');
-                valentinaZone.addDome("orange", 200, 200, 'n');
-                valentinaZone.addDome("white", 20, 40, 'n');
+                valentinaZone.addDome("red", 150, 200);
+                valentinaZone.addDome("violet", 110, 25);
+                valentinaZone.addDome("orange", 200, 200);
+                valentinaZone.addDome("white", 20, 40);
 
                 // Bueno, ahora creo que solo falta agregarme a mi misa... me asignaré un color rosa, que es mi favorito
                 // Creo que según el mapa que me dieron, estoy más o menos por aquí
-                valentinaZone.touristArrive("pink", 100, 100, 'n');
+                valentinaZone.touristArrive("pink", 100, 100);
 
                 // Creo que debería ubicarme con otro ángulo en la aplicación
                 valentinaZone.touristMove("pink", 100, 100, 270);
@@ -69,7 +69,7 @@ public class AcceptanceTesting {
                 companyZone.makeVisible();
 
                 // Vaya me falto un domo, voy a agregarlo
-                companyZone.addDome("black", 19, 37, 'n');
+                companyZone.addDome("black", 19, 37);
 
                 // Veamos como quedo la vista deseada
                 String[] desired = companyZone.getRequestedView();
@@ -81,8 +81,8 @@ public class AcceptanceTesting {
                 companyZone.defineRequestedPhoto(newDesired);
 
                 // Okey, parece que todo esta definido, ahora solo será agregar algunos turistas para probar
-                companyZone.touristArrive("pink", 100, 100, 'n');
-                companyZone.touristArrive("violet", 79, 14, 'n');
+                companyZone.touristArrive("pink", 100, 100);
+                companyZone.touristArrive("violet", 79, 14);
 
                 // Voy a revisar con esto si los domos y los turistas se agregaron correctamente
                 String[] domes = companyZone.domes();

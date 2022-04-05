@@ -8,10 +8,8 @@ import shapes.Triangle;
  * @author Luisa De la Hoz y Jorge Saenz. 
  * @version 8/02/22.
  */
-public class Turist
+public class Turist extends Triangle
 {
-    private boolean visible;
-    private Triangle turis = new Triangle();
     protected int safeDistance;
 
     /**
@@ -19,16 +17,16 @@ public class Turist
      */
     public Turist(int height, int width, int safeDistance)
     {
+        super();
         newSize(height, width);
-        turis.changeColor("magenta");
-        turis.varyAngle(-90);
+        this.varyAngle(-90);
         this.safeDistance = safeDistance;
     }
 
     public int getSafeDistance(){ return safeDistance; }
 
     private void newSize(int height, int width){
-        turis.changeSize(height / 10, width / 100);
+        this.changeSize(height / 100, width / 10);
     }
     
     /**
@@ -38,34 +36,7 @@ public class Turist
      * "magenta", "orange", "light blue", "violet" and "black".
      */
     public void setColor(String newColor){
-        turis.changeColor(newColor);
-    }
-    
-    /**
-     * Gives the color that the tourist has
-     */
-    public String getColor(){
-        return turis.getColor();
-    }
-    
-    public int getHeight(){
-        return turis.getHeight();
-    }
-
-    public int getWidth(){
-        return turis.getWidth();
-    }
-    
-    /**
-     * Sets the angle the tourist faces.
-     * @Param newAngle is the new angle.
-     */
-    public void setAngle(int newAngle){
-        turis.varyAngle(newAngle);
-    }
-    
-    public int getAngle(){
-        return turis.getAngle();
+        this.changeColor(newColor);
     }
     
     /**
@@ -74,45 +45,17 @@ public class Turist
      * @Param newYcor Y coordinate of the tourist.
      */
     public void setCor(int newXcor, int newYcor){
-        turis.setXposition(newXcor + safeDistance);
-        turis.setYposition(newYcor + safeDistance);
+        this.setXposition(newXcor + safeDistance);
+        this.setYposition(newYcor + safeDistance);
     }
 
-    public void setXposition(int newXcor){
-        turis.setXposition(newXcor);
+    @Override
+    public int getXposition(){
+        return this.xPosition;
     }
 
-    public void setYposition(int newYcor){
-        turis.setYposition(newYcor);
-    }
-
-    /**
-     * we get the coordinate x where the tourist is located.
-     */
-    public int getXcor(){
-        return turis.getXposition();
-    }
-    
-    /**
-     * we get the coordinate y where the tourist is located.
-     */
-    public int getYcor(){
-        return turis.getYposition();
-    }
-    
-    /**
-     * Makes the tourist visible.
-     */
-    public void makeVisible(){
-        visible = true;
-        turis.makeVisible();
-    }
-    
-    /**
-     * Makes the tourist invisible.
-     */
-    public void makeInvisible(){
-        turis.makeInvisible();
-        visible = false;
+    @Override
+    public int getYposition(){
+        return yPosition;
     }
 }
