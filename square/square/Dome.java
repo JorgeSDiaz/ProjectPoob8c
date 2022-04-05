@@ -5,7 +5,7 @@ import shapes.Circle;
  * represents the dome of a construction like a Circle.
  * 
  * @author Luisa De la Hoz y Jorge Saenz.
- * @version 8/02/22.
+ * @version 4/04/22.
  */
 public class Dome extends Circle
 {

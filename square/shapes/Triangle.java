@@ -6,9 +6,9 @@ import java.awt.*;
 
 /**
  * A triangle that can be manipulated and that draws itself on a canvas.
- * 
- * @author  Michael Kolling and David J. Barnes
- * @version 1.0  (15 July 2000)
+ *
+ * @author  Michael Kolling and David J. Barnes (Modified by Valentina de la Hoz y Jorge Saenz)
+ * @version 1.5  (4 April 2022)
  */
 
 public class Triangle extends Shapes{
@@ -33,11 +33,18 @@ public class Triangle extends Shapes{
         angle = 0;
         isRotate = false;
     }
-    
+    /**
+     * We obtain the height of the Triangle
+     * @return height of the Triangle
+     */
     public int getHeight(){
         return height;
     }
 
+    /**
+     * We obtain the width of the Triangle
+     * @return width of the Triangle
+     */
     public int getWidth() {return width;}
     
     /**
@@ -63,7 +70,11 @@ public class Triangle extends Shapes{
         }
         isRotate = false;
     }
-    
+
+    /**
+     * We obtain the angle to which the triangle is rotated.
+     * @return angle
+     */
     public int getAngle(){
         if (angle < 0){
             return -angle;
@@ -71,7 +82,11 @@ public class Triangle extends Shapes{
             return angle;
         }
     }
-    
+
+    /**
+     * The new X coordinate of the triangle is assigned.
+     * @param newXposition new X coordinate
+     */
     public void setXposition(int newXposition){
         erase();
         xPosition = newXposition;
@@ -81,7 +96,11 @@ public class Triangle extends Shapes{
     public int getXposition(){
         return xPosition;
     }
-    
+
+    /**
+     * The new Y coordinate of the triangle is assigned.
+     * @param newYposition new Y coordinate
+     */
     public void setYposition(int newYposition){
         erase();
         yPosition = newYposition;
@@ -152,7 +171,7 @@ public class Triangle extends Shapes{
         }
     }
 
-    /*
+    /**
      * Draw the triangle with current specifications on screen.
      */
     private void draw(){
@@ -165,7 +184,7 @@ public class Triangle extends Shapes{
         }
     }
 
-    /*
+    /**
      * Erase the triangle on screen.
      */
     private void erase(){

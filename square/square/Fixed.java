@@ -6,10 +6,10 @@ import shapes.Canvas;
 import java.awt.geom.Ellipse2D;
 
 /**
- * Write a description of class Fixed here.
- * 
+ * Dome that cannot be removed
+ *
  * @author Valentina de la Hoz y Jorge Saenz
- * @version 1.0
+ * @version 2.0
  */
 public class Fixed extends Dome
 {

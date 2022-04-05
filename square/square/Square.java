@@ -12,9 +12,9 @@ import java.util.*;
  */
 public class Square
 {
-    private final int dimensionX;
-    private final int dimensionY;
-    private final int safetyDistance;
+    private int dimensionX;
+    private int dimensionY;
+    private int safetyDistance;
     private boolean visible;
     private boolean ok;
     private ArrayList<String> requestedView;
@@ -61,24 +61,24 @@ public class Square
     }
 
     /**
-     *
-     * @return
+     * Return Square dimensions
+     * @return [dimensionX, dimensionY]
      */
     public int[] getDimensions(){
         return new int[]{dimensionX, dimensionY};
     }
 
     /**
-     *
-     * @return
+     * Returns the safety distance between tourists that has been defined.
+     * @return safety distance
      */
     public int getSafetyDistance(){
         return safetyDistance;
     }
 
     /**
-     *
-     * @return
+     * Returns the desired view that has been defined.
+     * @return desired view
      */
     public String[] getRequestedView(){
         String[] desiredView = new String[requestedView.size()];
@@ -88,7 +88,7 @@ public class Square
 
     /**
      * We add a dome at a specific point in space.
-     * @Param color color with which we want to identify the dome.
+     * @Param color with which we want to identify the dome.
      * @Param x Position x in which the dome is located.
      * @Param y Position y in which the dome is located.
      */
@@ -113,11 +113,11 @@ public class Square
 
 
     /**
-     *
-     * @param color
-     * @param x
-     * @param y
-     * @param type
+     * Add special domes
+     * @param color with which we want to identify the dome.
+     * @param x Position x in which the dome is located.
+     * @param y Position y in which the dome is located.
+     * @param type Special type of dome fixed or shy
      * @throws ExceptionSquare
      */
     public void addDome(String color, int x, int y, String type) throws ExceptionSquare {
@@ -130,7 +130,7 @@ public class Square
             throw new ExceptionSquare(ExceptionSquare.BAD_LOCATION);
         }
         String[] types = {"fixed", "shy"};
-        if ((new ArrayList<>(List.of(types))).contains(type)){
+        if (!((new ArrayList<>(List.of(types))).contains(type))){
             ok = false;
             throw new ExceptionSquare(ExceptionSquare.NO_IS_A_TYPE);
         }
@@ -161,7 +161,7 @@ public class Square
             ok = false;
             throw new ExceptionSquare(ExceptionSquare.ALREADY_ADDED);
         }
-        if (!domes.get(dome).isCanBeRemoved()){
+        if (!(domes.get(dome).isCanBeRemoved())){
             ok = false;
             throw new ExceptionSquare(ExceptionSquare.FIXE_NODELETE);
         }
@@ -174,9 +174,10 @@ public class Square
 
     /**
      * We add a tourist in the area.
-     * @Param color color with which we want to identify the turist.
+     * @Param color with which we want to identify the turist.
      * @Param x Position x in which the turist is located.
      * @Param y Position y in which the turist is located.
+     * @throws ExceptionSquare
      */
     public void touristArrive(String color, int x, int y) throws ExceptionSquare{
         if (turis.containsKey(color)){
@@ -198,11 +199,11 @@ public class Square
     }
 
     /**
-     *
-     * @param color
-     * @param x
-     * @param y
-     * @param type
+     * Add special tourists
+     * @param color with which we want to identify the turist.
+     * @param x Position x in which the turist is located.
+     * @param y Position y in which the turist is located.
+     * @param type Special type of tourist, prudent, perfectionist or turis360
      * @throws ExceptionSquare
      */
     public void touristArrive(String color, int x, int y, String type) throws ExceptionSquare {
@@ -214,7 +215,7 @@ public class Square
             ok = false;
             throw new ExceptionSquare(ExceptionSquare.BAD_LOCATION);
         }
-        String[] types = {"prudent", "perfectionist"};
+        String[] types = {"prudent", "perfectionist", "turis360"};
         if (!(new ArrayList<>(List.of(types)).contains(type))) {
             ok = false;
             throw new ExceptionSquare(ExceptionSquare.NO_IS_A_TYPE);
@@ -227,6 +228,8 @@ public class Square
             turist = new Prudent(dimensionX, dimensionY, safetyDistance);
         } else if (type.equals("perfectionist")){
             turist = new Perfectionist(dimensionX, dimensionY, safetyDistance);
+        } else if (type.equals("turis360")){
+            turist = new Turist_360(dimensionX, dimensionY, safetyDistance);
         }
         turist.setColor(color);
         turist.setCor(x, y);
@@ -279,29 +282,33 @@ public class Square
         zone.changeColor("green");
         eraseAmbient();
         Dome dome;
-        for (String e: domes()){
-            dome = domes.get(e);
-            if (!(dome instanceof Shy)){
-                if (angleDir >= 270 && angleDir < 360){
-                    if (angleDir == 270 && xCor < (dome.getXposition())){
-                        domeViews.add(e);
+        if (!(photographer instanceof Turist_360)){
+            for (String e: domes()){
+                dome = domes.get(e);
+                if (!(dome instanceof Shy)){
+                    if (angleDir >= 270 && angleDir < 360){
+                        if (angleDir == 270 && xCor < (dome.getXposition())){
+                            domeViews.add(e);
+                        }
+                    } else if (angleDir >= 0 && angleDir < 90){
+                        if (angleDir == 0 && yCor > (dome.getYposition())){
+                            domeViews.add(e);
+                        }
+                    } else if (angleDir >= 90 && angleDir < 180){
+                        if (angleDir == 90 && xCor > (dome.getXposition())){
+                            domeViews.add(e);
+                        }
+                    } else if(angleDir >= 180 && angleDir < 270){
+                        if (angleDir == 180 && yCor < (dome.getYposition())){
+                            domeViews.add(e);
+                        }
                     }
-                } else if (angleDir >= 0 && angleDir < 90){
-                    if (angleDir == 0 && yCor > (dome.getYposition())){
-                        domeViews.add(e);
-                    }
-                } else if (angleDir >= 90 && angleDir < 180){
-                    if (angleDir == 90 && xCor > (dome.getXposition())){
-                        domeViews.add(e);
-                    }
-                } else if(angleDir >= 180 && angleDir < 270){
-                    if (angleDir == 180 && yCor < (dome.getYposition())){
-                        domeViews.add(e);
-                    }
+                } else {
+                    dome.setCor(xCor - 10, yCor - 10);
                 }
-            } else {
-                dome.setCor(xCor - 10, yCor - 10);
             }
+        } else {
+            domeViews = new ArrayList<>(List.of(this.domes()));
         }
         zone.changeColor("blue");
         drawAmbient();
@@ -334,29 +341,33 @@ public class Square
         int yCor = photographer.getYposition();
         ArrayList<String> domes = new ArrayList<>(Arrays.asList(domes()));
         Dome dome;
-        for (String e: domes){
-            dome = this.domes.get(e);
-            if (!(dome instanceof Shy)){
-                if (viewAngle >= 270 && viewAngle < 360){
-                    if (viewAngle == 270 && xCor < (dome.getXposition())){
-                        domeViews.add(e);
+        if (!(photographer instanceof Turist_360)){
+            for (String e: domes){
+                dome = this.domes.get(e);
+                if (!(dome instanceof Shy)){
+                    if (viewAngle >= 270 && viewAngle < 360){
+                        if (viewAngle == 270 && xCor < (dome.getXposition())){
+                            domeViews.add(e);
+                        }
+                    } else if (viewAngle >= 0 && viewAngle < 90){
+                        if (viewAngle == 0 && yCor > (dome.getYposition())){
+                            domeViews.add(e);
+                        }
+                    } else if (viewAngle >= 90 && viewAngle < 180){
+                        if (viewAngle == 90 && xCor > (dome.getXposition())){
+                            domeViews.add(e);
+                        }
+                    } else if(viewAngle >= 180 && viewAngle < 270){
+                        if (viewAngle == 180 && yCor < (dome.getYposition())){
+                            domeViews.add(e);
+                        }
                     }
-                } else if (viewAngle >= 0 && viewAngle < 90){
-                    if (viewAngle == 0 && yCor > (dome.getYposition())){
-                        domeViews.add(e);
-                    }
-                } else if (viewAngle >= 90 && viewAngle < 180){
-                    if (viewAngle == 90 && xCor > (dome.getXposition())){
-                        domeViews.add(e);
-                    }
-                } else if(viewAngle >= 180 && viewAngle < 270){
-                    if (viewAngle == 180 && yCor < (dome.getYposition())){
-                        domeViews.add(e);
-                    }
+                } else {
+                    dome.setCor(xCor - 10, yCor - 10);
                 }
-            } else {
-                dome.setCor(xCor - 10, yCor - 10);
             }
+        } else {
+            domeViews = new ArrayList<>(List.of(this.domes()));
         }
         zone.changeColor("blue");
         drawAmbient();

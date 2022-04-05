@@ -2,10 +2,10 @@ package square;
 
 
 /**
- * Write a description of class Prudent here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
+ * Tourist who keeps twice as much distance from other tourists
+ *
+ * @author Valentina de la Hoz y Jorge Saenz
+ * @version 1.0
  */
 public class Prudent extends Turist
 {

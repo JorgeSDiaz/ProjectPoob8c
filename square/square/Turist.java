@@ -6,7 +6,7 @@ import shapes.Triangle;
  * Simulate a tourist like a Triangle.
  * 
  * @author Luisa De la Hoz y Jorge Saenz. 
- * @version 8/02/22.
+ * @version 4/04/22.
  */
 public class Turist extends Triangle
 {
@@ -24,18 +24,18 @@ public class Turist extends Triangle
     }
 
     /**
-     *
-     * @return
+     * We obtain the tourist's safety distance
+     * @return safety distance
      */
     public int getSafeDistance(){ return safeDistance; }
 
     /**
-     *
-     * @param height
-     * @param width
+     * We assign a new size to scale
+     * @param height size
+     * @param width size
      */
     private void newSize(int height, int width){
-        this.changeSize(height / 100, width / 10);
+        this.changeSize(height / 10, width / 10);
     }
     
     /**

@@ -4,6 +4,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -139,21 +143,6 @@ public class SquareC2Test
         assertArrayEquals(pinkView, zoneA.touristTakePhoto("pink"));
         assertArrayEquals(whiteView, zoneA.touristTakePhoto("white"));
     }
-    
-    @Test
-    /**
-     * It gives us who can take the defined forum
-     */
-    public void shouldWhoRequestedPhoto() throws ExceptionSquare {
-        int[] dimensions = {300, 250, 3};
-        int[][] dome = {{110, 25}, {200, 202}, {155, 201}};
-        int[] desiredView = {1, 2, 3};
-        Square zoneC = new Square(dimensions, dome, desiredView);
-        zoneC.touristArrive("pink", 50, 50);
-        zoneC.touristMove("pink", 50, 50, 270);
-        String[] res = {"pink"};
-        assertArrayEquals(res, zoneC.whoRequestedPhoto());
-    }
 
     @Test
     /**
@@ -195,6 +184,112 @@ public class SquareC2Test
         zoneA.touristArrive("orange", 40, 40);
         int[] touristInfo = {45, 45, 90};
         assertArrayEquals(touristInfo, zoneA.tourist("orange"));
+    }
+
+    @Test
+    /**
+     * The fixed dome is tested to ensure that it cannot be deleted.
+     */
+    public void ShouldFixeNoDelete(){
+        try {
+            zoneA.addDome("green", 200, 200, "fixed");
+            zoneA.delDome("green");
+        } catch (ExceptionSquare t){
+            assertEquals(ExceptionSquare.FIXE_NODELETE, t.getMessage());
+        }
+    }
+
+    @Test
+    /**
+     * Exception tested when registering a non-existent special type
+     */
+    public void ShouldntAddNoSpecialDome(){
+        try {
+            zoneA.addDome("green", 200, 200, "normal");
+        } catch (ExceptionSquare t){
+            assertEquals(ExceptionSquare.NO_IS_A_TYPE, t.getMessage());
+        }
+    }
+
+    @Test
+    /**
+     * We check that the shy dome changes its position when a tourist takes a picture of it.
+     */
+    public void ShouldShyMove(){
+        try {
+            int[] coors = {150, 200};
+            zoneA.addDome("pink", 150, 200, "shy");
+            zoneA.touristArrive("white", 50, 50);
+            zoneA.touristMove("white", 50, 50, 270);
+            assertNotEquals(coors, zoneA.dome("pink"));
+        } catch (ExceptionSquare t){
+            fail("Exception : "+t.getMessage());
+        }
+    }
+
+    @Test
+    /**
+     * We test that the perfectionist only takes the desired photo.
+     */
+    public void ShouldPerfectionistNoTakePhoto(){
+        try {
+            String[] desired = {"red", "blue", "white"};
+            zoneA.defineRequestedPhoto(desired);
+            zoneA.touristArrive("pink", 100, 100, "perfectionist");
+            zoneA.touristMove("pink", 50, 50, 270);
+            zoneA.addDome("blue", 110, 25);
+            zoneA.addDome("light blue", 200, 200);
+            zoneA.addDome("orange", 150, 200);
+            String[] pinkView = {"orange", "blue", "light blue"};
+            assertNotEquals(pinkView, zoneA.touristTakePhoto("pink"));
+        } catch (ExceptionSquare t){
+            fail("Exception : "+t.getMessage());
+        }
+    }
+
+    @Test
+    /**
+     * We test that the prudent tourist maintains double the safety distance.
+     */
+    public void ShouldPrudentHaveDoubleSafeDistance(){
+        try {
+            zoneA.touristArrive("violet", 10, 200, "prudent");
+            int[] tourist = zoneA.tourist("violet");
+            assertEquals(210, tourist[1]);
+        } catch (ExceptionSquare t){
+            fail("Exception : "+t.getMessage());
+        }
+    }
+
+    @Test
+    /**
+     * The fact that the 360° tourist takes pictures of all the domes regardless of their angle of view is tested.
+     */
+    public void ShouldTourist360SeeEverything(){
+        try {
+            zoneA.addDome("blue", 110, 25);
+            zoneA.addDome("light blue", 20, 200);
+            zoneA.addDome("orange", 900, 40);
+            zoneA.touristArrive("violet", 10, 200, "turis360");
+            ArrayList<String> photo = new ArrayList<>(Arrays.asList(zoneA.touristTakePhoto("violet")));
+            assertTrue(photo.contains("blue"));
+            assertTrue(photo.contains("orange"));
+            assertTrue(photo.contains("light blue"));
+        } catch (ExceptionSquare t){
+            fail("Exception : "+t.getMessage());
+        }
+    }
+
+    @Test
+    /**
+     * Exception tested when registering a non-existent special type
+     */
+    public void ShouldntAddNoSpecialTourist(){
+        try {
+            zoneA.touristArrive("green", 500, 10, "normal");
+        } catch (ExceptionSquare t){
+            assertEquals(ExceptionSquare.NO_IS_A_TYPE, t.getMessage());
+        }
     }
 
     /**

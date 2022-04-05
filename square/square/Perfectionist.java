@@ -2,10 +2,10 @@ package square;
 
 
 /**
- * Write a description of class Perfectionist here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
+ * WTourist who can only take the desired photo
+ *
+ * @author Valentina de la Hoz y Jorge Saenz
+ * @version 1.0
  */
 public class Perfectionist extends Turist
 {

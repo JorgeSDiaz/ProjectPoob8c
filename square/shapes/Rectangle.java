@@ -3,12 +3,9 @@ package shapes;
 /**
  * A rectangle that can be manipulated and that draws itself on a canvas.
  * 
- * @author  Michael Kolling and David J. Barnes (Modified)
- * @version 1.0  (15 July 2000)()
+ * @author  Michael Kolling and David J. Barnes (Modified by Valentina de la Hoz y Jorge Saenz)
+ * @version 1.5  (4 April 2022)
  */
-
-
- 
 public class Rectangle extends Shapes{
 
     public static int EDGES = 4;
@@ -27,7 +24,12 @@ public class Rectangle extends Shapes{
         color = "magenta";
         isVisible = false;
     }
-    
+
+    /**
+     * Change the X and Y coordinates of the rectangle
+     * @param x X coordinate
+     * @param y Y coordinate
+     */
     public void changePosition(int x, int y){
         xPosition = x;
         yPosition = y;
@@ -44,11 +46,19 @@ public class Rectangle extends Shapes{
     public int getYposition(){
         return yPosition;
     }
-    
+
+    /**
+     * We obtain the width of the rectangle
+     * @return width of the rectangle
+     */
     public int getWidth(){
         return width;
     }
-    
+
+    /**
+     * We obtain the height of the rectangle
+     * @return height of the rectangle
+     */
     public int getHeight(){
         return height;
     }
@@ -72,7 +82,7 @@ public class Rectangle extends Shapes{
     /**
      * Change the size to the new size
      * @param newHeight the new height in pixels. newHeight must be >=0.
-     * @param newWidht the new width in pixels. newWidth must be >=0.
+     * @param newWidth the new width in pixels. newWidth must be >=0.
      */
     public void changeSize(int newHeight, int newWidth) {
         erase();
@@ -83,7 +93,7 @@ public class Rectangle extends Shapes{
     
     /**
      * Change the color. 
-     * @param color the new color. Valid colors are "red", "yellow", "blue", "green",
+     * @param newColor the new color. Valid colors are "red", "yellow", "blue", "green",
      * "magenta" and "black".
      */
     public void changeColor(String newColor){
@@ -91,10 +101,9 @@ public class Rectangle extends Shapes{
         draw();
     }
 
-    /*
+    /**
      * Draw the rectangle with current specifications on screen.
      */
-
     private void draw() {
         if(isVisible) {
             shapes.Canvas canvas = shapes.Canvas.getCanvas();
@@ -105,7 +114,7 @@ public class Rectangle extends Shapes{
         }
     }
 
-    /*
+    /**
      * Erase the rectangle on screen.
      */
     private void erase(){
