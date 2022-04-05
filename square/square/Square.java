@@ -59,15 +59,27 @@ public class Square
     public void defineRequestedPhoto(String[] dome){
         requestedView = new ArrayList<>(Arrays.asList(dome));
     }
-    
+
+    /**
+     *
+     * @return
+     */
     public int[] getDimensions(){
         return new int[]{dimensionX, dimensionY};
     }
-    
+
+    /**
+     *
+     * @return
+     */
     public int getSafetyDistance(){
         return safetyDistance;
     }
-    
+
+    /**
+     *
+     * @return
+     */
     public String[] getRequestedView(){
         String[] desiredView = new String[requestedView.size()];
         requestedView.toArray(desiredView);
@@ -100,6 +112,14 @@ public class Square
     }
 
 
+    /**
+     *
+     * @param color
+     * @param x
+     * @param y
+     * @param type
+     * @throws ExceptionSquare
+     */
     public void addDome(String color, int x, int y, String type) throws ExceptionSquare {
         if (domes.containsKey(color)){
             ok = false;
@@ -177,6 +197,14 @@ public class Square
         drawAmbient();
     }
 
+    /**
+     *
+     * @param color
+     * @param x
+     * @param y
+     * @param type
+     * @throws ExceptionSquare
+     */
     public void touristArrive(String color, int x, int y, String type) throws ExceptionSquare {
         if (turis.containsKey(color)){
             ok = false;

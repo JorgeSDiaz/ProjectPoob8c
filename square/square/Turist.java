@@ -23,8 +23,17 @@ public class Turist extends Triangle
         this.safeDistance = safeDistance;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getSafeDistance(){ return safeDistance; }
 
+    /**
+     *
+     * @param height
+     * @param width
+     */
     private void newSize(int height, int width){
         this.changeSize(height / 100, width / 10);
     }

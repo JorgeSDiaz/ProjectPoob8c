@@ -18,19 +18,36 @@ public class Dome extends Circle
     public Dome(int size)
     {
         super();
-        this.changeSize(size  / 10);
+        this.changeSize(size  / 25);
         canBeRemoved = true;
         position = 0;
     }
 
+    /**
+     *
+     * @param newPosition
+     */
     public void setPosition(int newPosition) {
         position = newPosition;
     };
 
+    /**
+     *
+     * @return
+     */
     public int getPosition() { return position; }
 
+    /**
+     *
+     * @return
+     */
     public boolean isCanBeRemoved(){ return this.canBeRemoved; }
 
+    /**
+     *
+     * @param xCoor
+     * @param yCoor
+     */
     public void setCor(int xCoor, int yCoor){
         this.setXposition(xCoor);
         this.setYposition(yCoor);

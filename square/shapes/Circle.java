@@ -14,16 +14,10 @@ public class Circle extends Shapes{
     public static final float PI=3.1416f;
     
     protected int diameter;
-    private float cArea;
-    protected int xPosition;
-    protected int yPosition;
-    protected String color;
-    protected boolean isVisible;
     
 
     public Circle(){
         diameter = 30;
-        cArea = area();
         xPosition = 50;
         yPosition = 50;
         color = "blue";
@@ -34,7 +28,7 @@ public class Circle extends Shapes{
         return color;
     }
     
-        public int getXposition(){
+    public int getXposition(){
         return xPosition;
     }
     
@@ -50,21 +44,8 @@ public class Circle extends Shapes{
         yPosition = newYposition;
     }
     
-    public void setDiameter(int newDiameter){
-        diameter = newDiameter;
-    }
-    
     public int getDiameter(){
         return diameter;
-    }
-
-    /**
-     * We calculate the radius from the diameter and return the result 
-     * of the formula for the area of a circle
-     */
-    public float area(){
-        float radio = diameter / 2;
-        return PI * (radio * radio);
     }
 
        
@@ -103,7 +84,6 @@ public class Circle extends Shapes{
     public void changeSize(int newDiameter){
         erase();
         diameter = newDiameter;
-        cArea = area();
         draw(10);
     }
 
